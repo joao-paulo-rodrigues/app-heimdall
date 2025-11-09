@@ -1,0 +1,16 @@
+package com.heimdall.device.database
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "pending_messages")
+data class PendingMessage(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val topic: String,
+    val payload: String,
+    val qos: Int = 1,
+    val timestamp: Long = System.currentTimeMillis(),
+    val retryCount: Int = 0
+)
+

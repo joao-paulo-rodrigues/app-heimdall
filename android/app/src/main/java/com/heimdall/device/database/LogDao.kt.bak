@@ -1,0 +1,18 @@
+package com.heimdall.device.database
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+
+@Dao
+interface LogDao {
+    @Insert
+    suspend fun insert(logEntry: LogEntry)
+
+    @Query("SELECT * FROM log_entries ORDER BY timestamp DESC LIMIT :limit")
+    suspend fun getRecentLogs(limit: Int = 100): List<LogEntry>
+
+    @Query("DELETE FROM log_entries WHERE timestamp < :beforeTimestamp")
+    suspend fun deleteOldLogs(beforeTimestamp: String)
+}
+

@@ -1,0 +1,30 @@
+package com.heimdall.device.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+
+@Database(entities = [LogEntry::class, PendingMessage::class], version = 1, exportSchema = false)
+abstract class HeimdallDatabase : RoomDatabase() {
+    abstract fun logDao(): LogDao
+    abstract fun pendingMessageDao(): PendingMessageDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: HeimdallDatabase? = null
+
+        fun getDatabase(context: Context): HeimdallDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    HeimdallDatabase::class.java,
+                    "heimdall_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
+
