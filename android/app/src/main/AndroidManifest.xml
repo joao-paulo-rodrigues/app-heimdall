@@ -96,6 +96,20 @@
                 <action android:name="com.uebrasil.panicbuttonapp.SENSOR_DATA" />
             </intent-filter>
         </receiver>
+        
+        <!-- Receiver para resultado de instalação -->
+        <receiver
+            android:name=".update.InstallResultReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
+        
+        <!-- Receiver para resultado de desinstalação -->
+        <receiver
+            android:name=".update.UninstallResultReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
 
     </application>
 

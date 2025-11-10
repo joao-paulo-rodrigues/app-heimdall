@@ -28,6 +28,10 @@ object MqttConfig {
     fun getStatusTopic(tenantId: String, deviceId: String): String {
         return "$TOPIC_PREFIX/tenants/$tenantId/devices/$deviceId/status"
     }
+    
+    fun getAuditTopic(tenantId: String, deviceId: String): String {
+        return "$TOPIC_PREFIX/tenants/$tenantId/devices/$deviceId/audit"
+    }
 }
 
 

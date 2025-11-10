@@ -83,6 +83,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.lifecycle:lifecycle-service:2.7.0")
     
+    // Security Crypto (para EncryptedSharedPreferences)
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+    
     // Testes
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

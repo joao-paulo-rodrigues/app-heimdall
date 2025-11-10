@@ -9,6 +9,10 @@ import com.heimdall.device.command.configurePanicButtonKioskHandler
 import com.heimdall.device.command.syncPanicButtonDataHandler
 import com.heimdall.device.command.getPanicButtonStatusHandler
 import com.heimdall.device.command.sendPanicButtonCommandHandler
+import com.heimdall.device.command.installAppHandler
+import com.heimdall.device.command.updateAppHandler
+import com.heimdall.device.command.uninstallAppHandler
+import com.heimdall.device.command.checkUpdatesHandler
 import com.hivemq.client.mqtt.MqttClient
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck
@@ -204,6 +208,12 @@ class MqttServiceManager private constructor(private val context: Context) {
         commandHandler.registerProcessor("get_panicbutton_status", getPanicButtonStatusHandler(context))
         commandHandler.registerProcessor("send_panicbutton_command", sendPanicButtonCommandHandler(context))
         
+        // Comandos de instalação/atualização
+        commandHandler.registerProcessor("install_app", installAppHandler(context))
+        commandHandler.registerProcessor("update_app", updateAppHandler(context))
+        commandHandler.registerProcessor("uninstall_app", uninstallAppHandler(context))
+        commandHandler.registerProcessor("check_updates", checkUpdatesHandler(context))
+        
         Logger.info(
             component = "heimdall.device.mqtt",
             message = "Command processors registered"
@@ -372,4 +382,49 @@ class MqttServiceManager private constructor(private val context: Context) {
      * Retorna o CommandHandler para uso externo
      */
     fun getCommandHandler(): CommandHandler = commandHandler
+    
+    /**
+     * Publica mensagem genérica em um tópico
+     */
+    fun publish(topic: String, payload: String, qos: Int = 1) {
+        if (!isConnected || mqttClient == null) {
+            Logger.warning(
+                component = "heimdall.device.mqtt",
+                message = "Cannot publish: MQTT not connected",
+                metadata = mapOf("topic" to topic)
+            )
+            return
+        }
+        
+        scope.launch {
+            try {
+                val mqttQos = when (qos) {
+                    0 -> com.hivemq.client.mqtt.datatypes.MqttQos.AT_MOST_ONCE
+                    1 -> com.hivemq.client.mqtt.datatypes.MqttQos.AT_LEAST_ONCE
+                    2 -> com.hivemq.client.mqtt.datatypes.MqttQos.EXACTLY_ONCE
+                    else -> com.hivemq.client.mqtt.datatypes.MqttQos.AT_LEAST_ONCE
+                }
+                
+                mqttClient?.publishWith()
+                    ?.topic(topic)
+                    ?.payload(payload.toByteArray())
+                    ?.qos(mqttQos)
+                    ?.send()
+                    ?.get()
+                
+                Logger.debug(
+                    component = "heimdall.device.mqtt",
+                    message = "Message published successfully",
+                    metadata = mapOf("topic" to topic)
+                )
+            } catch (e: Exception) {
+                Logger.error(
+                    component = "heimdall.device.mqtt",
+                    message = "Exception while publishing message",
+                    metadata = mapOf("topic" to topic),
+                    throwable = e
+                )
+            }
+        }
+    }
 }

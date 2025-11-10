@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.heimdall.device.app-mergeDebugResources-36:/values-sk/values-sk.xml",
+            "outputFile": "com.heimdall.device.app-mergeDebugResources-37:/values-sk/values-sk.xml",
             "map": [
                 {
                     "source": "/Users/joaopaulo/.gradle/caches/transforms-3/05224489032c3019ab4819bbf85501d2/transformed/appcompat-1.6.1/res/values-sk/values-sk.xml",

@@ -24,10 +24,8 @@ object Logger {
 
     fun initialize(context: Context) {
         this.context = context
-        this.deviceId = android.provider.Settings.Secure.getString(
-            context.contentResolver,
-            android.provider.Settings.Secure.ANDROID_ID
-        ) ?: UUID.randomUUID().toString()
+        // Usar IMEI como device ID (gerado ou real)
+        this.deviceId = ImeiUtils.getOrGenerateImei(context)
     }
 
     fun setTenantId(tenantId: String) {

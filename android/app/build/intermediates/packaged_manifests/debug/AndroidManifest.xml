@@ -114,6 +114,20 @@
             </intent-filter>
         </receiver>
 
+        <!-- Receiver para resultado de instalação -->
+        <receiver
+            android:name="com.heimdall.device.update.InstallResultReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <!-- Receiver para resultado de desinstalação -->
+        <receiver
+            android:name="com.heimdall.device.update.UninstallResultReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.heimdall.device.androidx-startup"

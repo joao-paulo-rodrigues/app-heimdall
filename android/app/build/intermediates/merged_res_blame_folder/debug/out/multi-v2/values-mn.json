@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.heimdall.device.app-mergeDebugResources-36:/values-mn/values-mn.xml",
+            "outputFile": "com.heimdall.device.app-mergeDebugResources-37:/values-mn/values-mn.xml",
             "map": [
                 {
                     "source": "/Users/joaopaulo/.gradle/caches/transforms-3/4cf1e948bf6a66e2894447e3be139353/transformed/core-1.12.0/res/values-mn/values-mn.xml",

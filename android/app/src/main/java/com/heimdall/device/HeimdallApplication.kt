@@ -14,7 +14,16 @@ class HeimdallApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         
+        // Inicializar Logger primeiro (gera IMEI se necessário)
         Logger.initialize(this)
+        
+        // Log do IMEI gerado/obtido
+        val deviceImei = Logger.getDeviceId()
+        Logger.info(
+            component = "heimdall.device.application",
+            message = "Device IMEI initialized",
+            metadata = mapOf("imei" to deviceImei)
+        )
         
         // Room Database temporariamente desabilitado
         // try {

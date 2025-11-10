@@ -176,8 +176,9 @@ class PanicButtonCommunicationManager private constructor(private val context: C
                 val deviceId = com.heimdall.device.util.Logger.getDeviceId()
                 val tenantId = "UEBRASIL"
                 
-                // Compartilhar IMEI/Device ID
+                // Compartilhar IMEI/Device ID (o deviceId já é o IMEI)
                 shareData(KEY_DEVICE_ID, deviceId)
+                shareData(KEY_IMEI, deviceId) // IMEI explícito
                 shareData(KEY_TENANT_ID, tenantId)
                 
                 // Compartilhar configuração MQTT
